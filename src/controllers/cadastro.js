@@ -4,16 +4,17 @@ const crypto = require('crypto')
 require('dotenv/config')
 
 function encrypt(value){
-    var cipher = crypto.createCipheriv(process.env.CRYPTO_ALGORITHM, Buffer.from(process.env.CRYPTO_PASSWORD, 'hex'), Buffer.from(process.env.CRYPTO_IV, 'hex'))
-    let encrypted = cipher.update(value, 'utf-8', 'hex')
-    encrypted += cipher.final('hex')
-    console.log(encrypted)
-    return encrypted
+    const cypher = crypto.createCipheriv(process.env.CRYPTO_ALGORITHM, process.env.CRYPTO_PASSWORD, process.env.CRYPTO_IV);
+    if(value){
+        cypher.update(value, 'utf-8', 'base64')
+        return cypher.final('base64')}
+    else{
+        return null
+    }
 }
 
 module.exports = {
     store(req,res){
-        console.log(encrypt("16579923733"))
         mysql.getConnection((err, conn) => {
             //estabelecendo conexão com a db
             if(err){ return res.status(500).json({error:err})}
@@ -24,16 +25,25 @@ module.exports = {
                 if(response.length > 0){
                     res.status(409).json({message: "Ocorreu um erro ao realizar o processo."})
                 } else{
+                    // adicionando criptografia de dados sensiveis
                     const id = crypto.randomBytes(20).toString("hex")
+                    const email = encrypt(req.body.email)
+                    const establishment = encrypt(req.body.establishment)
+                    const phone = encrypt(req.body.phone)
+                    const address = encrypt(req.body.address)
+                    const establishment_cnpj = encrypt(req.body.establishment_cnpj)
+                    const user_rg = encrypt(req.body.user_rg)
+                    const user_cpf = encrypt(req.body.user_cpf)
                     bcrypt.hash(req.body.password, 10, (errBcrypt, hash_password)=>{
                         if(errBcrypt){return res.status(500).json({error:errBcrypt})}
                         conn.query('insert into users (id_user, name,email,password, profile_photo, username, establishment, phone, type_user, address, user_cpf, establishment_cnpj, user_rg, social_media, relevant_categories) values (?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                        [id, req.body.name,req.body.email,hash_password,req.body.profile_photo, req.body.username, req.body.establishment, req.body.phone, req.body.type_user, req.body.address, req.body.user_cpf, req.body.establishment_cnpj, req.body.user_rg, req.body.social_media, req.body.categories],
+                        [id, req.body.name, email,hash_password,req.body.profile_photo, req.body.username, establishment, phone, req.body.type_user, address, user_cpf, establishment_cnpj, user_rg, req.body.social_media, req.body.categories],
                         (error) => {
                         conn.release()
                         if(error){return res.status(500).json({
                             error:error.sqlMessage})}
                         return res.status(201).json({
+                            id_user: id,
                             message: "Criado com sucesso"
                         })
                     })})
