@@ -4,8 +4,8 @@ require('dotenv/config')
 
 function decrypt(value){
     const decypher = crypto.createDecipheriv(process.env.CRYPTO_ALGORITHM, process.env.CRYPTO_PASSWORD, process.env.CRYPTO_IV)
-    decypher.update(value, 'base64', 'utf-8')
-    decrypted = decypher.final()
+    var decrypted = decypher.update(value, process.env.CRYPTO_BASE, 'utf-8')
+    decrypted += decypher.final('utf-8')
     return decrypted
 }
 
@@ -21,8 +21,7 @@ module.exports = {
                 if(response.length === 0){res.status(404).json({message: "Não encontrado"})}
                 return res.status(200).json({ 
                     message: "Usuários no banco de dados",
-                    users: decrypt(response[1].email),
-                    phone: response[1].email
+                    phone: decrypt(response[0].user_cpf)
                 })
             })
         })
