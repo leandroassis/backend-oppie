@@ -33,9 +33,6 @@ module.exports = {
                     const establishment_cnpj = encrypt(req.body.establishment_cnpj)
                     const user_rg = encrypt(req.body.user_rg)
                     const user_cpf = encrypt(req.body.user_cpf)
-                    console.log(user_cpf)
-                    console.log(user_rg)
-                    console.log(establishment_cnpj)
                     bcrypt.hash(req.body.password, 10, (errBcrypt, hash_password)=>{
                         if(errBcrypt){return res.status(500).json({error:errBcrypt})}
                         conn.query('insert into users (id_user, name,email,password, profile_photo, username, establishment, phone, type_user, address, user_cpf, establishment_cnpj, user_rg) values (?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
