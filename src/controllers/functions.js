@@ -41,7 +41,7 @@ module.exports = {
 
         transporter.sendMail({
             from: process.env.EMAIL_ADDRESS,
-            to: "bernardo1assis@gmail.com",
+            to: email,
             replyTo: "assissantosleandro@gmail.com",
             subject: "Testando envio de emails da api",
             html: `<b>Ola esse é um email teste</b>
@@ -54,6 +54,5 @@ module.exports = {
         }).catch(errp =>{
             console.log(errp)
         })
-        return emailToken   
     }
 }

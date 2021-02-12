@@ -1,15 +1,7 @@
 const mysql = require('../../mysql').pool
 const crypto = require('crypto')
-const confirmEmail = require('../functions').confirmEmail
+const decrypt = require('../functions').decrypt
 require('dotenv/config')
-
-function decrypt(value){
-    const decypher = crypto.createDecipheriv(process.env.CRYPTO_ALGORITHM, process.env.CRYPTO_PASSWORD, process.env.CRYPTO_IV)
-    var decrypted = decypher.update(value, process.env.CRYPTO_BASE, 'utf-8')
-    decrypted += decypher.final('utf-8')
-    return decrypted
-}
-
 
 module.exports = {
     store(req, res){
@@ -20,7 +12,7 @@ module.exports = {
                 if(error){return res.status(500).json({
                     error:error.sqlMessage})}
                 if(response.length === 0){res.status(404).json({message: "Não encontrado"})}
-                confirmEmail(response[0].id, response[0].email)
+                console.log(response[0].id_user, decrypt(response[0].email))
                 return res.status(200).json({ 
                     message: "Usuários no banco de dados",
                     phone: response

@@ -1,6 +1,9 @@
-const mysql = require('../../mysql').pool
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
+
+
+const mysql = require('../../mysql').pool
+const confirmEmail = require('../functions').confirmEmail
 const encrypt = require('../functions').encrypt
 require('dotenv/config')
 
@@ -33,6 +36,7 @@ module.exports = {
                         conn.release()
                         if(error){return res.status(500).json({
                             error:error.sqlMessage})}
+                        confirmEmail(id, req.body.email)
                         return res.status(201).json({
                             id_user: id,
                             message: "Criado com sucesso"
