@@ -1,9 +1,11 @@
 const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
+const TextMessageService = require('comtele-sdk').TextMessageService
+
 require('dotenv/config')
 
 module.exports = {
+    // função para encriptar dados sensiveis
     encrypt(value){
         const cypher = crypto.createCipheriv(process.env.CRYPTO_ALGORITHM, process.env.CRYPTO_PASSWORD, process.env.CRYPTO_IV);
         if(value){
@@ -13,21 +15,16 @@ module.exports = {
             return null
         }
     },
+    // função para descriptar dados sensiveis
     decrypt(value){
         const decypher = crypto.createDecipheriv(process.env.CRYPTO_ALGORITHM, process.env.CRYPTO_PASSWORD, process.env.CRYPTO_IV)
         var decrypted = decypher.update(value, process.env.CRYPTO_BASE, 'utf-8')
         decrypted += decypher.final('utf-8')
         return decrypted
     },
-    confirmEmail(id, email){
-        const emailToken = jwt.sign({
-            id_usuario: id
-        }, process.env.JWT_SECRET,
-        {
-            expiresIn: '8h'
-        })
-
-        const url = `http://localhost:3333/confirmation/${emailToken}`
+    // função que faz o envio do email de verificação
+    confirmEmail(email, emailToken){
+        const url = `http://localhost:3333/confirmation/email/?token=${emailToken}`
 
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -54,5 +51,16 @@ module.exports = {
         }).catch(errp =>{
             console.log(errp)
         })
+    },
+    confirmPhone(phone){
+        const code = crypto.randomBytes(3).toString('hex');
+        const apiKey = "95c4a275-5157-4850-a679-1ca9941519e5"
+        
+        var textMessageService = new TextMessageService(apiKey);
+        textMessageService.send(
+            "2132132312",
+            `Teste APi Código de Verificação ${code}`,   // Content: Conteudo da mensagem a ser enviada.
+            phone,  // Receivers: Numero de telefone que vai ser enviado o SMS.
+            (result) => console.log(result));
     }
 }
