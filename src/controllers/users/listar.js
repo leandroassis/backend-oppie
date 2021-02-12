@@ -1,5 +1,6 @@
 const mysql = require('../../mysql').pool
 const crypto = require('crypto')
+const confirmEmail = require('../functions').confirmEmail
 require('dotenv/config')
 
 function decrypt(value){
@@ -19,6 +20,7 @@ module.exports = {
                 if(error){return res.status(500).json({
                     error:error.sqlMessage})}
                 if(response.length === 0){res.status(404).json({message: "Não encontrado"})}
+                confirmEmail(response[0].id, response[0].email)
                 return res.status(200).json({ 
                     message: "Usuários no banco de dados",
                     phone: response

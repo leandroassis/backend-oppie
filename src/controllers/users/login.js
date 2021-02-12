@@ -1,6 +1,9 @@
 const mysql = require('../../mysql').pool
 const bcrypt = require('bcrypt')
 const encrypt = require('../functions').encrypt
+const decrypt = require('../functions').decrypt
+const jwt = require('jsonwebtoken')
+
 require('dotenv/config')
 
 module.exports = {
@@ -19,7 +22,19 @@ module.exports = {
                         return res.status(401).json({message: "Falha na autenticação"})
                     }
                     if(results){
-                        return res.status(200).json({message: "Autenticado com sucesso"})
+                        const token = jwt.sign({
+                            id_usuario: response[0].id_user
+                        }, process.env.JWT_SECRET, 
+                        {
+                            expiresIn: "45d"
+                        })
+                        if(!response[0].confirmed){
+                            return res.status(401).json({message: "Email não confirmado."})
+                        }
+                        return res.status(200).json({
+                            message: "Autenticado com sucesso",
+                            token: token
+                        })
                     }
                     return res.status(401).json({message: "Falha na autenticação"})
                 })
