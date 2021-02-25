@@ -1,6 +1,11 @@
 const express = require('express')
 const routes = express.Router()
 
+/*
+To do Rota de confirmação de telefone
+To do Cadastro/Login com redes sociais
+*/
+
 const cadastrarUser = require('./controllers/users/cadastro')
 const logarUser = require('./controllers/users/login')
 const listarUsers = require('./controllers/users/listar')

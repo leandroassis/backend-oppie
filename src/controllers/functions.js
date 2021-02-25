@@ -8,12 +8,8 @@ module.exports = {
     // função para encriptar dados sensiveis
     encrypt(value){
         const cypher = crypto.createCipheriv(process.env.CRYPTO_ALGORITHM, process.env.CRYPTO_PASSWORD, process.env.CRYPTO_IV);
-        if(value){
-            var encrypted = cypher.update(value, 'utf-8', process.env.CRYPTO_BASE)
-            return encrypted += cypher.final(process.env.CRYPTO_BASE)}
-        else{
-            return null
-        }
+        var encrypted = cypher.update(value, 'utf-8', process.env.CRYPTO_BASE)
+        return encrypted += cypher.final(process.env.CRYPTO_BASE)
     },
     // função para descriptar dados sensiveis
     decrypt(value){
@@ -54,11 +50,10 @@ module.exports = {
     },
     confirmPhone(phone){
         const code = crypto.randomBytes(3).toString('hex');
-        const apiKey = "95c4a275-5157-4850-a679-1ca9941519e5"
+        const apiKey = process.env.SMS_API_KEY
         
         var textMessageService = new TextMessageService(apiKey);
         textMessageService.send(
-            "2132132312",
             `Teste APi Código de Verificação ${code}`,   // Content: Conteudo da mensagem a ser enviada.
             phone,  // Receivers: Numero de telefone que vai ser enviado o SMS.
             (result) => console.log(result));
