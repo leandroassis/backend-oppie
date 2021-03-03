@@ -49,7 +49,7 @@ module.exports = {
         })
     },
     confirmPhone(phone){
-        const code = crypto.randomBytes(3).toString('hex');
+        const code = crypto.randomBytes(3).toString('hex').toUpperCase();
         const apiKey = process.env.SMS_API_KEY
         
         var textMessageService = new TextMessageService(apiKey);
