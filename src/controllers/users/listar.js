@@ -6,6 +6,7 @@ require('dotenv/config')
 module.exports = {
     store(req, res){
         mysql.getConnection((err, conn) => {
+            console.log("OKOK")
             if(err){ return res.status(500).json({error:err})}
             conn.query('select * from users' , (error, response) => {
                 conn.release()
