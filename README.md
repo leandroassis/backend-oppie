@@ -13,5 +13,7 @@
 - To do: Mensagem de confirmação de telefone
 - To do: Front-end App
 
+
 ## Doing:
-- To do: Login com redes sociais
+- To do: Login com redes sociais (Verificando necessidade) *
+- Host da api na AWS
