@@ -44,8 +44,8 @@ module.exports = {
             `
         }).then(info =>{
             console.log(info)
-        }).catch(errp =>{
-            console.log(errp)
+        }).catch(email_error =>{
+            console.log(email_error)
         })
     },
     confirmPhone(phone){
