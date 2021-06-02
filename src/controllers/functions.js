@@ -34,12 +34,9 @@ module.exports = {
             from: process.env.EMAIL_ADDRESS,
             to: email,
             replyTo: "assissantosleandro@gmail.com",
-            subject: "Testando envio de emails da api",
-            html: `<b>Ola esse é um email teste</b>
-            <h2>Clique no link abaixo para confirmar sua senha</h2>
-            <a href="${url}">${url}</a>
-            <p>Não adianta clicar, é só um teste :p</p>
-            `
+            subject: "OPPIE Confirmação de e-mail",
+            html: `<h2>Obrigado por usar nosso serviço!</h2>
+            <b>Clique nesse <a href="${url}">link</a> para confirmar sua senha.</b>`
         }).then(info => {
             console.log(info)
         }).catch(email_error => {

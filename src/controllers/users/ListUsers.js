@@ -6,7 +6,7 @@ require('dotenv/config')
 module.exports = {
     store(req, res) {
         mysql.getConnection((err, conn) => {
-            console.log("OKOK")
+            console.log("List users is OK")
             if (err) {
                 return res.status(500).json(
                     {
