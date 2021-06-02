@@ -5,9 +5,9 @@
 - [x] Login
 - [x] Confirmação de Email
 - [x] Confirmação de Telefone
-- [ ] Adicionar datas de criação de conta, modificação e aniversario
+- [x] Adicionar datas de criação de conta, modificação e aniversario
 
-- [ ] To do: Apresentação do email de confirmação
+- [x] To do: Apresentação do email de confirmação
 - [ ] To do: Mensagem de confirmação de telefone
 - [ ] To do: Front-end App
 
