@@ -6,12 +6,12 @@ To do Rota de confirmação de telefone
 To do Cadastro/Login com redes sociais
 */
 
-const cadastrarUser = require('./controllers/users/Register')
-const logarUser = require('./controllers/users/Login')
-const listarUsers = require('./controllers/users/ListUsers')
-const confirmEmail = require('./controllers/confirmation/ConfirmEmail')
-const requestconfirmPhone = require('./controllers/confirmation/RequestConfirmPhone')
-const confirmPhone = require('./controllers/confirmation/ConfirmCode')
+const cadastrarUser = require('./Controllers/users/Register')
+const logarUser = require('./Controllers/users/Login')
+const listarUsers = require('./Controllers/users/ListUsers')
+const confirmEmail = require('./Controllers/confirmation/ConfirmEmail')
+const requestconfirmPhone = require('./Controllers/confirmation/RequestConfirmPhone')
+const confirmPhone = require('./Controllers/confirmation/ConfirmCode')
 
 
 routes.post('/users/cadastro', cadastrarUser.store)
