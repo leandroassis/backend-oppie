@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const TextMessageService = require('comtele-sdk').TextMessageService
 
-require('dotenv/config')
+require('./Users/node_modules/dotenv/config')
 
 module.exports = {
     // função para encriptar dados sensiveis
